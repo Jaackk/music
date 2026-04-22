@@ -38,7 +38,8 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: radial-gradient(circle at top left, rgba(255, 160, 68, 0.18), transparent 26%),
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at top left, rgba(255, 160, 68, 0.18), transparent 26%),
                   radial-gradient(circle at top right, rgba(20, 146, 255, 0.14), transparent 20%),
                   linear-gradient(180deg, #fbf9f5 0%, #f5f1ea 100%);
       color: var(--text);
@@ -164,7 +165,9 @@
       gap: 18px;
       min-height: var(--nav-height);
       padding: 14px 18px;
-      background: rgba(255, 251, 246, 0.68);
+      background-color: #fffbf6;
+      background-color: rgba(255, 251, 246, 0.68);
+      -webkit-backdrop-filter: blur(24px) saturate(155%);
       backdrop-filter: blur(24px) saturate(155%);
       border: 1px solid rgba(34, 24, 14, 0.08);
       border-radius: 999px;
@@ -389,6 +392,7 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       transition: transform 240ms ease, background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
     }
 
@@ -422,9 +426,11 @@
     }
 
     .glass-card {
+      background-color: rgba(255, 247, 240, 0.12);
       background: rgba(255, 247, 240, 0.08);
       border: 1px solid rgba(255, 247, 240, 0.12);
       border-radius: 24px;
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
       backdrop-filter: blur(18px) saturate(140%);
       box-shadow: 0 16px 42px rgba(10, 8, 7, 0.2);
     }
@@ -500,6 +506,7 @@
       background: rgba(255, 247, 240, 0.08);
       border: 1px solid rgba(255, 247, 240, 0.12);
       border-radius: 999px;
+      -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
     }
 
@@ -529,6 +536,7 @@
       color: #fff7f0;
       background: rgba(255, 247, 240, 0.08);
       border: 1px solid rgba(255, 247, 240, 0.14);
+      -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
       transition: transform 220ms ease, background-color 220ms ease;
     }
@@ -870,6 +878,7 @@
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
     }
 
@@ -1005,6 +1014,7 @@
       font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
     }
 
@@ -1063,6 +1073,162 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+    }
+
+    @supports not ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))) {
+      .nav-inner {
+        background-color: #fffbf6;
+      }
+
+      .glass-card,
+      .hero-dots,
+      .hero-arrow,
+      .release-badge,
+      .visual-card .video-pill,
+      .button,
+      .release-play,
+      .play-visual {
+        background-color: rgba(255, 247, 240, 0.18);
+      }
+    }
+
+    @supports not (mix-blend-mode: multiply) {
+      .noise {
+        mix-blend-mode: normal;
+        opacity: 0.03;
+      }
+    }
+
+    @media (forced-colors: active) {
+      html,
+      body {
+        background: Canvas;
+        color: CanvasText;
+      }
+
+      body::before,
+      .noise {
+        display: none;
+      }
+
+      .nav-inner,
+      .button,
+      .release-play,
+      .play-visual,
+      .glass-card,
+      .hero-dots,
+      .hero-arrow,
+      .filter-chip,
+      .release-card,
+      .release-badge,
+      .release-arrow,
+      .about-card,
+      .contact-card,
+      .visual-card .video-pill,
+      .nav-toggle,
+      .nav-socials a,
+      .footer-socials a,
+      .inline-link {
+        background: Canvas;
+        background-image: none;
+        color: CanvasText;
+        border: 1px solid CanvasText;
+        box-shadow: none;
+        text-shadow: none;
+      }
+
+      .button,
+      .release-play,
+      .play-visual,
+      .hero-arrow,
+      .filter-chip,
+      .nav-toggle,
+      .nav-socials a,
+      .footer-socials a,
+      .inline-link {
+        forced-color-adjust: none;
+        background: ButtonFace;
+        color: ButtonText;
+        border-color: ButtonText;
+      }
+
+      .button *,
+      .release-play *,
+      .play-visual *,
+      .hero-arrow *,
+      .filter-chip *,
+      .nav-toggle *,
+      .nav-socials a *,
+      .footer-socials a *,
+      .inline-link * {
+        color: ButtonText;
+        background: transparent;
+        fill: none;
+      }
+
+      .filter-chip.active,
+      .filter-chip:hover {
+        background: ButtonFace;
+        color: ButtonText;
+        border-color: ButtonText;
+        transform: none;
+      }
+
+      .hero-kicker,
+      .hero-text,
+      .hero-stat,
+      .hero-stat span,
+      .hero-scroll,
+      .section-copy,
+      .release-year,
+      .release-type,
+      .about-card p,
+      .contact-card p,
+      .footer-inner,
+      .eyebrow,
+      .nav-links a,
+      .nav-socials a,
+      .footer-socials a,
+      .inline-link {
+        color: CanvasText;
+      }
+
+      .brand-mark,
+      .hero-dot.active {
+        background: Highlight;
+        border-color: Highlight;
+        box-shadow: none;
+      }
+
+      .hero-dot {
+        background: GrayText;
+      }
+
+      .release-badge,
+      .visual-card .video-pill {
+        background: ButtonFace;
+        color: ButtonText;
+        border-color: ButtonText;
+      }
+
+      .hero-slide::before,
+      .hero-slide::after,
+      .hero-visual::after {
+        background: none;
+      }
+
+      .nav-links a:hover,
+      .nav-socials a:hover,
+      .footer-socials a:hover,
+      .inline-link:hover,
+      .button:hover,
+      .release-play:hover,
+      .play-visual:hover,
+      .hero-arrow:hover {
+        background: ButtonFace;
+        color: ButtonText;
+        transform: none;
+      }
     }
 
     .reveal {
