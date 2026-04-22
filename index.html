@@ -936,6 +936,7 @@
     }
 
     .live-card img,
+    .live-card video,
     .visual-card img {
       position: absolute;
       inset: 0;
@@ -946,6 +947,7 @@
     }
 
     .live-card:hover img,
+    .live-card:hover video,
     .visual-card:hover img {
       transform: scale(1.04);
     }
@@ -1329,10 +1331,10 @@
                 </div>
                 <div class="hero-visuals">
                   <div class="hero-visual glass-card">
-                    <img src="file:///Users/rasky/Desktop/raskymusic/Artwork/brick%20by%20brick.PNG" alt="Brick by Brick artwork">
+                    <img src="media/brick by brick.PNG" alt="Brick by Brick artwork">
                   </div>
                   <div class="hero-visual glass-card">
-                    <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01933.JPEG" alt="Raskyjack live photo">
+                    <img src="media/DSC01933 Large.jpeg" alt="Raskyjack live photo">
                   </div>
                 </div>
               </div>
@@ -1435,14 +1437,16 @@
 
           <div class="live-grid">
             <article class="live-card large">
-              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02050%202.JPEG" alt="Raskyjack performing live">
+              <video autoplay muted loop playsinline preload="metadata" poster="media/DSC02050 2 Large.jpeg" aria-label="Raskyjack live performance video">
+                <source src="media/5c155cf3-efaf-4bca-9d71-3bcef8f36d4b.MP4" type="video/mp4">
+              </video>
               <div class="live-card-content">
                 <h3>mid-song.</h3>
                 <p>the kind of night that leaves your ears ringing on the walk home.</p>
               </div>
             </article>
             <article class="live-card">
-              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01941.JPEG" alt="Raskyjack performance portrait">
+              <img src="media/DSC01941 Large.jpeg" alt="Raskyjack performance portrait">
               <div class="live-card-content">
                 <h3>after dark.</h3>
                 <p>just guitar, room noise, and whatever the lights were doing.</p>
@@ -1465,7 +1469,7 @@
           <div class="visual-grid">
             <a class="visual-card" href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer">
               <span class="video-pill">Visual</span>
-              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02006.JPEG" alt="Performance still">
+              <img src="media/DSC02006 Large.jpeg" alt="Performance still">
               <div class="visual-card-content">
                 <h3>Watch on YouTube</h3>
                 <p>official uploads, live takes, and bits from the road.</p>
@@ -1473,7 +1477,7 @@
             </a>
             <a class="visual-card" href="https://www.tiktok.com/@raskyjackmusic" target="_blank" rel="noreferrer">
               <span class="video-pill">TikTok</span>
-              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01888.JPEG" alt="Live shot with neon lighting">
+              <img src="media/DSC01888 Large.jpeg" alt="Live shot with neon lighting">
               <div class="visual-card-content">
                 <h3>Short-form moments</h3>
                 <p>quick fragments, rough edges, late-night clips.</p>
@@ -1481,7 +1485,7 @@
             </a>
             <a class="visual-card" href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer">
               <span class="video-pill">Photo</span>
-              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02056.JPEG" alt="Performance image">
+              <img src="media/DSC02056 Large.jpeg" alt="Performance image">
               <div class="visual-card-content">
                 <h3>See the full feed</h3>
                 <p>photos, updates, and the moments between releases.</p>
@@ -1542,12 +1546,12 @@
 
   <script>
     const heroImages = [
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01933.JPEG",
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01888.JPEG",
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02011.JPEG",
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02050%202.JPEG",
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02056.JPEG",
-      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01941.JPEG"
+      "media/DSC01933 Large.jpeg",
+      "media/DSC01888 Large.jpeg",
+      "media/DSC02011 Large.jpeg",
+      "media/DSC02050 2 Large.jpeg",
+      "media/DSC02056 Large.jpeg",
+      "media/DSC01941 Large.jpeg"
     ];
 
     const releaseData = [
@@ -1557,7 +1561,7 @@
         year: "2026",
         type: "single",
         description: "Brick by Brick leans into patience, pressure, and the slow work of keeping something together when it would be easier to let it fall.",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/brick%20by%20brick.PNG",
+        image: "media/brick by brick.PNG",
         accent: ["#d8571f", "#7d170f"],
         platforms: {
           spotify: {
@@ -1575,7 +1579,7 @@
         title: "Suffolk",
         year: "2025",
         type: "ep",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/suffolk.png",
+        image: "media/suffolk.png",
         description: "A small run of songs carrying local names, late buses, and the feeling of getting home long after midnight.",
         platforms: {
           spotify: {
@@ -1593,7 +1597,7 @@
         title: "Illusions",
         year: "2025",
         type: "album",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/Illusions.png",
+        image: "media/Illusions.png",
         description: "A full-length set built on blur, reflection, and all the things that feel true until they shift in the light.",
         platforms: {
           spotify: {
@@ -1611,7 +1615,7 @@
         title: "Heavy Woodbridge Nights",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/heavy%20woodbridge%20nights.png",
+        image: "media/heavy woodbridge nights.png",
         description: "Restless and local, with that specific kind of energy only a hometown night can leave behind.",
         platforms: {
           spotify: {
@@ -1629,7 +1633,7 @@
         title: "Monopoly",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/monopoly.PNG",
+        image: "media/monopoly.PNG",
         description: "A sharper edge in the catalogue, held back here until the player link catches up.",
         platforms: {}
       },
@@ -1638,7 +1642,7 @@
         title: "My Philosophy",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/my%20philosophy.png",
+        image: "media/my philosophy.png",
         description: "One for the quieter convictions, still waiting on an embedded player.",
         platforms: {}
       },
@@ -1647,7 +1651,7 @@
         title: "Ride",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/ride.png",
+        image: "media/ride.png",
         description: "Fast moving, open-road energy with its headlights still on.",
         platforms: {
           spotify: {
@@ -1665,7 +1669,7 @@
         title: "Señorita",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/Sen%CC%83orita.png",
+        image: "media/Señorita.png",
         description: "Still off-player for now, but part of the same run of late-night singles.",
         platforms: {}
       },
@@ -1674,7 +1678,7 @@
         title: "Sunshine Swimming",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/238648E5-053F-44FD-929F-9ABD2D8C2BE0.JPG",
+        image: "media/sunshine swimming.jpg",
         description: "Lighter on the surface, still carrying the same undertow.",
         platforms: {
           spotify: {
@@ -1692,7 +1696,7 @@
         title: "Back to Kind",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/back%20to%20kind.png",
+        image: "media/back to kind.png",
         description: "One of the softer turns in the release run, not embedded here yet.",
         platforms: {}
       },
@@ -1701,7 +1705,7 @@
         title: "Disco",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/disco.png",
+        image: "media/disco.png",
         description: "Bright colours, sharp edges, and a pulse that keeps pulling forward.",
         platforms: {
           spotify: {
@@ -1715,7 +1719,7 @@
         title: "Verified",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/verified.png",
+        image: "media/add46763-c694-42cc-b061-1d77e75bb7c2 2.JPG",
         description: "Cold blue light, clean lines, and a release that lands a little differently.",
         platforms: {
           apple: {
@@ -1729,7 +1733,7 @@
         title: "Shnorkipus",
         year: "2025",
         type: "single",
-        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/0B449E79-D0CB-4099-867A-CE008ECD5074.jpg",
+        image: "media/shnorkipus.PNG",
         description: "A strange little turn in the catalogue, best met head-on.",
         platforms: {
           spotify: {
