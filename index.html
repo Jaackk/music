@@ -106,7 +106,7 @@
       top: var(--y);
       width: var(--w);
       max-width: none;
-      opacity: 0.14;
+      opacity: 0.15;
       transform: rotate(var(--r));
       transform-origin: center;
       user-select: none;
@@ -2202,17 +2202,20 @@
         document.body.scrollHeight,
         logoWall.scrollHeight
       );
-
-      const leftColumns = [16, 72, 128, 184, 238];
-      const rightColumns = [238, 184, 128, 72, 16];
-      const widths = [132, 76, 108, 66, 94, 72, 118, 84];
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const contentWidth = Math.min(viewportWidth - 32, 1320);
+      const gutterWidth = Math.max(0, (viewportWidth - contentWidth) / 2);
+      const sideInset = 14;
+      const safeGutter = Math.max(0, gutterWidth - sideInset * 2);
+      const columnCount = Math.max(4, Math.min(6, Math.floor(safeGutter / 58)));
+      const baseStep = safeGutter / Math.max(1, columnCount);
+      const widths = [72, 58, 84, 64, 78, 54, 88, 62];
       const rotations = [-10, 7, -6, 11, -8, 5, 9, -4];
-      const rowOffsets = [10, 28, 46, 64, 82];
-      const rowStep = 78;
+      const rowStep = 62;
 
       function appendLogo(xValue, yValue, widthValue, rotationValue, alignRight = false) {
         const img = document.createElement("img");
-        img.src = "media/raskylogo.png";
+        img.src = "raskylogo.png";
         img.alt = "";
         img.style.setProperty("--x", alignRight ? `calc(100% - ${xValue + widthValue}px)` : `${xValue}px`);
         img.style.setProperty("--y", `${yValue}px`);
@@ -2221,21 +2224,25 @@
         logoWall.appendChild(img);
       }
 
-      let rowIndex = 0;
-      for (let y = 0; y <= pageHeight + rowStep; y += rowStep) {
-        leftColumns.forEach((column, columnIndex) => {
-          const width = widths[(rowIndex + columnIndex) % widths.length];
-          const rotation = rotations[(rowIndex + columnIndex) % rotations.length];
-          appendLogo(column, y + rowOffsets[columnIndex], width, rotation);
-        });
+      for (let row = 0, y = 10; y <= pageHeight + rowStep; row += 1, y += rowStep) {
+        for (let column = 0; column < columnCount; column += 1) {
+          const width = widths[(row + column) % widths.length];
+          const rotation = rotations[(row + column) % rotations.length];
+          const cellOffset = row % 2 === 0 ? 0 : baseStep * 0.32;
+          const x = sideInset + (column * baseStep) + cellOffset;
 
-        rightColumns.forEach((column, columnIndex) => {
-          const width = widths[(rowIndex + columnIndex + 3) % widths.length];
-          const rotation = rotations[(rowIndex + columnIndex + 4) % rotations.length] * -1;
-          appendLogo(column, y + rowOffsets[(columnIndex + 2) % rowOffsets.length], width, rotation, true);
-        });
+          if (x + width <= gutterWidth - sideInset) {
+            appendLogo(x, y + ((column % 2) * 10), width, rotation);
+          }
 
-        rowIndex += 1;
+          const rightWidth = widths[(row + column + 3) % widths.length];
+          const rightRotation = rotations[(row + column + 4) % rotations.length] * -1;
+          const rightX = sideInset + (column * baseStep) + cellOffset;
+
+          if (rightX + rightWidth <= gutterWidth - sideInset) {
+            appendLogo(rightX, y + (((column + 1) % 2) * 10), rightWidth, rightRotation, true);
+          }
+        }
       }
     }
 
