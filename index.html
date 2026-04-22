@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>raskyjack</title>
+  <meta name="description" content="raskyjack official music website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f1;
+      --bg-soft: #efe8df;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-strong: rgba(255, 255, 255, 0.9);
+      --text: #16120f;
+      --muted: rgba(22, 18, 15, 0.62);
+      --line: rgba(22, 18, 15, 0.1);
+      --accent: #ff7a18;
+      --accent-2: #ff3d77;
+      --accent-3: #1492ff;
+      --shadow: 0 20px 60px rgba(49, 32, 12, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max: 1320px;
+      --nav-height: 82px;
+      --hero-shift: 0px;
+      color-scheme: light;
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top left, rgba(255, 160, 68, 0.18), transparent 26%),
+                  radial-gradient(circle at top right, rgba(20, 146, 255, 0.14), transparent 20%),
+                  linear-gradient(180deg, #fbf9f5 0%, #f5f1ea 100%);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 122, 24, 0.09), transparent 18%),
+        radial-gradient(circle at 85% 8%, rgba(255, 61, 119, 0.08), transparent 16%),
+        radial-gradient(circle at 80% 78%, rgba(20, 146, 255, 0.08), transparent 20%);
+      z-index: -1;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    .page-shell {
+      position: relative;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.045;
+      background-image:
+        linear-gradient(transparent 0, rgba(0, 0, 0, 0.05) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.24'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      z-index: 2;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 36px 0 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    .section-title {
+      margin: 8px 0 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.06em;
+    }
+
+    .section-copy {
+      margin: 12px 0 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.72;
+    }
+
+    .nav {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(calc(100% - 24px), calc(var(--max) + 20px));
+      z-index: 30;
+      transition: transform 260ms ease, background-color 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+    }
+
+    .nav.scrolled {
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: var(--nav-height);
+      padding: 14px 18px;
+      background: rgba(255, 251, 246, 0.68);
+      backdrop-filter: blur(24px) saturate(155%);
+      border: 1px solid rgba(34, 24, 14, 0.08);
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(45, 29, 11, 0.08);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 6px rgba(255, 122, 24, 0.12);
+    }
+
+    .nav-links,
+    .nav-socials {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .nav-socials a,
+    .footer-socials a,
+    .inline-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 999px;
+      color: rgba(22, 18, 15, 0.75);
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: color 220ms ease, background-color 220ms ease, transform 220ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-socials a:hover,
+    .footer-socials a:hover,
+    .inline-link:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .nav-socials a,
+    .footer-socials a {
+      width: 42px;
+      padding: 0;
+      border: 1px solid rgba(22, 18, 15, 0.08);
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(22, 18, 15, 0.1);
+      color: var(--text);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      padding: calc(var(--nav-height) + 54px) 0 28px;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .hero-stage {
+      position: relative;
+      width: 100%;
+      min-height: calc(100svh - 82px);
+      border-radius: clamp(28px, 4vw, 42px);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      background: #120d09;
+    }
+
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1100ms cubic-bezier(.22, 1, .36, 1), transform 1100ms cubic-bezier(.22, 1, .36, 1);
+      transform: scale(1.035);
+      will-change: opacity, transform;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-slide::before {
+      content: "";
+      position: absolute;
+      inset: -4%;
+      background-image: var(--slide-image);
+      background-size: cover;
+      background-position: center calc(50% + var(--hero-shift));
+      transform: scale(1.04);
+      transition: transform 6s ease, filter 0.6s ease;
+      filter: saturate(1.06) contrast(1.02);
+    }
+
+    .hero-slide.active::before {
+      transform: scale(1);
+    }
+
+    .hero-slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10, 8, 7, 0.72) 0%, rgba(10, 8, 7, 0.32) 38%, rgba(10, 8, 7, 0.18) 100%),
+        linear-gradient(180deg, rgba(10, 8, 7, 0.06) 0%, rgba(10, 8, 7, 0.18) 100%),
+        radial-gradient(circle at 14% 28%, rgba(255, 122, 24, 0.26), transparent 28%),
+        radial-gradient(circle at 78% 24%, rgba(255, 61, 119, 0.14), transparent 26%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 32px;
+      align-items: end;
+      height: 100%;
+      min-height: calc(100svh - 82px);
+      padding: clamp(32px, 5vw, 56px);
+    }
+
+    .hero-copy {
+      max-width: 690px;
+      color: #fff7f0;
+      align-self: center;
+      animation: riseIn 900ms 120ms both cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: rgba(255, 247, 240, 0.72);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(3rem, 8vw, 7.6rem);
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+      text-wrap: balance;
+    }
+
+    .hero-title span:last-child {
+      color: #ffb56d;
+      font-style: italic;
+    }
+
+    .hero-text {
+      margin: 22px 0 0;
+      max-width: 520px;
+      color: rgba(255, 247, 240, 0.82);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.72;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button,
+    .release-play,
+    .play-visual {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      transition: transform 240ms ease, background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .button:hover,
+    .release-play:hover,
+    .play-visual:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary,
+    .release-play {
+      background: linear-gradient(135deg, var(--accent), #ffa447);
+      color: #180f08;
+      border-color: transparent;
+      box-shadow: 0 14px 28px rgba(255, 122, 24, 0.22);
+    }
+
+    .button.secondary,
+    .play-visual {
+      color: #fff7f0;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-side {
+      align-self: end;
+      justify-self: end;
+      width: min(100%, 420px);
+      display: grid;
+      gap: 14px;
+      animation: riseIn 900ms 240ms both cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .glass-card {
+      background: rgba(255, 247, 240, 0.08);
+      border: 1px solid rgba(255, 247, 240, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 16px 42px rgba(10, 8, 7, 0.2);
+    }
+
+    .hero-stat {
+      display: grid;
+      gap: 12px;
+      padding: 22px;
+      color: #fff7f0;
+    }
+
+    .hero-stat strong {
+      font-family: "Sora", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-stat span {
+      color: rgba(255, 247, 240, 0.72);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .hero-visuals {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 188px;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .hero-visual img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 700ms ease;
+    }
+
+    .hero-visual:hover img {
+      transform: scale(1.04);
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(12, 8, 4, 0.28));
+    }
+
+    .hero-controls {
+      position: absolute;
+      inset: auto 22px 22px 22px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 247, 240, 0.08);
+      border: 1px solid rgba(255, 247, 240, 0.12);
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 247, 240, 0.34);
+      transition: transform 220ms ease, background-color 220ms ease;
+    }
+
+    .hero-dot.active {
+      background: #fff7f0;
+      transform: scale(1.28);
+    }
+
+    .hero-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-arrow {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      color: #fff7f0;
+      background: rgba(255, 247, 240, 0.08);
+      border: 1px solid rgba(255, 247, 240, 0.14);
+      backdrop-filter: blur(16px);
+      transition: transform 220ms ease, background-color 220ms ease;
+    }
+
+    .hero-arrow:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: rgba(255, 247, 240, 0.14);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      left: 18px;
+      bottom: 110px;
+      z-index: 2;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      color: rgba(255, 247, 240, 0.62);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .featured {
+      padding-top: 20px;
+    }
+
+    .featured-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(300px, 0.88fr) minmax(0, 1.12fr);
+      gap: clamp(18px, 3vw, 34px);
+      padding: clamp(18px, 3vw, 28px);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.15), transparent 22%),
+        linear-gradient(135deg, var(--feature-accent), var(--feature-accent-2));
+      color: #fff7f0;
+      box-shadow: var(--shadow);
+    }
+
+    .featured-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(14, 9, 6, 0.12), rgba(14, 9, 6, 0.04)),
+        radial-gradient(circle at 80% 18%, rgba(255, 255, 255, 0.12), transparent 22%);
+      pointer-events: none;
+    }
+
+    .featured-media,
+    .featured-info {
+      position: relative;
+      z-index: 1;
+    }
+
+    .featured-media {
+      border-radius: calc(var(--radius-xl) - 10px);
+      overflow: hidden;
+      box-shadow: 0 24px 50px rgba(10, 8, 7, 0.22);
+      min-height: 100%;
+    }
+
+    .featured-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+    }
+
+    .featured-info {
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      padding: clamp(6px, 1.5vw, 12px) 0;
+    }
+
+    .featured-tag {
+      color: rgba(255, 247, 240, 0.72);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .featured-title {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(2.3rem, 5vw, 5rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+    }
+
+    .featured-meta {
+      color: rgba(255, 247, 240, 0.82);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .featured-copy {
+      max-width: 620px;
+      color: rgba(255, 247, 240, 0.84);
+      line-height: 1.78;
+      font-size: 1rem;
+    }
+
+    .player-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .platform-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 247, 240, 0.16);
+      background: rgba(255, 247, 240, 0.08);
+      color: rgba(255, 247, 240, 0.82);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease, opacity 220ms ease;
+    }
+
+    .platform-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      background: rgba(255, 247, 240, 0.14);
+    }
+
+    .platform-button.is-active {
+      background: rgba(255, 247, 240, 0.94);
+      color: #180f08;
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(10, 8, 7, 0.12);
+    }
+
+    .platform-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .player-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      min-height: 392px;
+      background: rgba(12, 8, 4, 0.16);
+      border: 1px solid rgba(255, 247, 240, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 247, 240, 0.08);
+    }
+
+    .player-embed {
+      position: relative;
+      width: 100%;
+      height: 392px;
+      border: 0;
+      display: block;
+      background: rgba(12, 8, 4, 0.18);
+      opacity: 1;
+      transition: opacity 220ms ease;
+    }
+
+    .player-embed.is-loading {
+      opacity: 0.52;
+    }
+
+    .player-empty {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px;
+      color: rgba(255, 247, 240, 0.82);
+      background:
+        radial-gradient(circle at 22% 16%, rgba(255, 247, 240, 0.06), transparent 20%),
+        linear-gradient(180deg, rgba(12, 8, 4, 0.14), rgba(12, 8, 4, 0.22));
+    }
+
+    .player-empty.is-visible {
+      display: flex;
+    }
+
+    .player-empty-inner {
+      max-width: 28rem;
+      display: grid;
+      gap: 10px;
+    }
+
+    .player-empty strong {
+      font-family: "Sora", sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: -0.04em;
+    }
+
+    .player-empty span {
+      line-height: 1.7;
+    }
+
+    .streaming-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .streaming-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: rgba(255, 247, 240, 0.12);
+      border: 1px solid rgba(255, 247, 240, 0.16);
+      color: #fff7f0;
+      font-size: 0.94rem;
+      font-weight: 700;
+      transition: transform 220ms ease, background-color 220ms ease, opacity 220ms ease, border-color 220ms ease;
+    }
+
+    .streaming-links a:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 247, 240, 0.18);
+    }
+
+    .streaming-links a.is-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-chip {
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.64);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: transform 200ms ease, color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+    }
+
+    .filter-chip.active,
+    .filter-chip:hover {
+      color: var(--text);
+      border-color: rgba(255, 122, 24, 0.25);
+      background: rgba(255, 122, 24, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .release-card {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(22, 18, 15, 0.08);
+      box-shadow: 0 10px 28px rgba(31, 21, 11, 0.05);
+      transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+      overflow: hidden;
+    }
+
+    .release-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 44px rgba(31, 21, 11, 0.1);
+      border-color: rgba(255, 122, 24, 0.18);
+    }
+
+    .release-card.is-active {
+      border-color: rgba(255, 122, 24, 0.28);
+      box-shadow: 0 24px 48px rgba(31, 21, 11, 0.12);
+    }
+
+    .release-card.is-hidden {
+      display: none;
+    }
+
+    .release-cover {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background: #ddd;
+    }
+
+    .release-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 520ms cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .release-card:hover .release-cover img {
+      transform: scale(1.05);
+    }
+
+    .release-badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .release-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .release-title {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: 1.06rem;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .release-year {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .release-type {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .release-arrow {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(22, 18, 15, 0.08);
+      box-shadow: 0 12px 24px rgba(31, 21, 11, 0.08);
+    }
+
+    .live-grid,
+    .visual-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .live-card,
+    .visual-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      min-height: 420px;
+      background: #120d09;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .live-card.large {
+      min-height: 520px;
+    }
+
+    .live-card img,
+    .visual-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 800ms ease;
+    }
+
+    .live-card:hover img,
+    .visual-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .live-card::after,
+    .visual-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(12, 8, 4, 0.08) 0%, rgba(12, 8, 4, 0.62) 100%),
+        radial-gradient(circle at 20% 20%, rgba(255, 122, 24, 0.18), transparent 24%);
+    }
+
+    .live-card-content,
+    .visual-card-content {
+      position: absolute;
+      inset: auto 0 0 0;
+      z-index: 1;
+      padding: 26px;
+      color: #fff7f0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .live-card-content h3,
+    .visual-card-content h3 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      letter-spacing: -0.05em;
+    }
+
+    .live-card-content p,
+    .visual-card-content p {
+      margin: 0;
+      max-width: 34ch;
+      color: rgba(255, 247, 240, 0.78);
+      line-height: 1.65;
+      font-size: 0.96rem;
+    }
+
+    .visual-card .video-pill {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 1;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 247, 240, 0.12);
+      border: 1px solid rgba(255, 247, 240, 0.16);
+      color: #fff7f0;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .about-wrap {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+
+    .about-card,
+    .contact-card {
+      padding: clamp(22px, 3.2vw, 34px);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(22, 18, 15, 0.08);
+      box-shadow: 0 14px 36px rgba(31, 21, 11, 0.06);
+    }
+
+    .about-card p,
+    .contact-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.82;
+      font-size: 1rem;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .contact-actions .button.secondary {
+      color: var(--text);
+      background: rgba(255, 122, 24, 0.08);
+      border-color: rgba(255, 122, 24, 0.16);
+    }
+
+    .footer {
+      padding: 38px 0 28px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 700ms cubic-bezier(.22, 1, .36, 1), transform 700ms cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.45); opacity: 0.45; }
+      50% { transform: scaleY(1.08); opacity: 1; }
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 640px) {
+      .releases-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .live-grid,
+      .visual-grid,
+      .about-wrap {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 900px) {
+      .releases-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .live-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+
+      .visual-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .about-wrap {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    @media (min-width: 1140px) {
+      .releases-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1360px) {
+      .releases-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1120px) {
+      .hero-content,
+      .featured-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-side {
+        justify-self: stretch;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .nav-links,
+      .nav-socials {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav.is-open .nav-inner {
+        border-radius: 28px;
+      }
+
+      .nav.is-open .nav-links,
+      .nav.is-open .nav-socials {
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .nav.is-open .nav-inner {
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .hero-content {
+        min-height: auto;
+      }
+
+      .hero-scroll {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --nav-height: 74px;
+      }
+
+      .container {
+        width: min(calc(100% - 20px), var(--max));
+      }
+
+      .nav {
+        top: 10px;
+        width: calc(100% - 12px);
+      }
+
+      .nav-inner {
+        padding: 12px 14px;
+      }
+
+      .hero {
+        padding-top: calc(var(--nav-height) + 22px);
+      }
+
+      .hero-stage {
+        min-height: calc(100svh - 20px);
+      }
+
+      .hero-content {
+        padding: 24px;
+      }
+
+      .hero-visuals {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-controls {
+        position: relative;
+        inset: auto;
+        padding: 0 24px 24px;
+        margin-top: auto;
+      }
+
+      .hero-copy {
+        align-self: end;
+      }
+
+      .section {
+        padding-top: 26px;
+      }
+
+      .featured-card,
+      .about-card,
+      .contact-card {
+        border-radius: 24px;
+      }
+
+      .player-shell,
+      .player-embed {
+        min-height: 332px;
+        height: 332px;
+      }
+
+      .live-card,
+      .visual-card {
+        min-height: 340px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="noise"></div>
+
+    <header class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="raskyjack home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>raskyjack</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#music">music</a>
+          <a href="#live">live</a>
+          <a href="#visuals">visuals</a>
+          <a href="#about">about</a>
+          <a href="#contact">contact</a>
+        </nav>
+
+        <div class="nav-socials" aria-label="Social links">
+          <a href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer" aria-label="Spotify">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M7.4 10.4c3.2-1 6.4-.9 9.2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 13.3c2.4-.7 4.9-.6 7 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.7 16c1.7-.5 3.5-.4 5 .4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+          <a href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer" aria-label="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17 5.5 12 5.5 12 5.5s-5 0-6.9.6A3 3 0 0 0 3 8.2 31 31 0 0 0 3 12a31 31 0 0 0 .1 3.8 3 3 0 0 0 2.1 2.1c1.9.6 6.9.6 6.9.6s5 0 6.9-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 21 12a31 31 0 0 0-.1-3.8Z" stroke="currentColor" stroke-width="1.8"/><path d="m10 15 5-3-5-3v6Z" fill="currentColor"/></svg>
+          </a>
+          <a href="https://soundcloud.com/" target="_blank" rel="noreferrer" aria-label="SoundCloud">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 16.5a2.5 2.5 0 0 1 .8-4.9 4.7 4.7 0 0 1 9.1-1.4 3.4 3.4 0 1 1 1.3 6.3H6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container">
+          <div class="hero-stage">
+            <div class="hero-slides" id="heroSlides" aria-label="Gig photo carousel"></div>
+
+            <div class="hero-content">
+              <div class="hero-copy">
+                <div class="hero-kicker">raskyjack</div>
+                <h1 class="hero-title">sound.<br>memory.<br><span>motion.</span></h1>
+                <p class="hero-text">music for the late nights, the long drives, and everything in between.</p>
+                <div class="hero-actions">
+                  <a class="button primary" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">
+                    Listen Now
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </a>
+                  <a class="button secondary" href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer">
+                    Watch Visuals
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 8 6 4-6 4V8Z" fill="currentColor"/></svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="hero-side">
+                <div class="hero-stat glass-card">
+                  <strong>songs from late hours and long roads.</strong>
+                  <span>new release out now, with live clips and the rest of the catalogue close by.</span>
+                </div>
+                <div class="hero-visuals">
+                  <div class="hero-visual glass-card">
+                    <img src="file:///Users/rasky/Desktop/raskymusic/Artwork/brick%20by%20brick.PNG" alt="Brick by Brick artwork">
+                  </div>
+                  <div class="hero-visual glass-card">
+                    <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01933.JPEG" alt="Raskyjack live photo">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-scroll">scroll</div>
+
+            <div class="hero-controls">
+              <div class="hero-dots" id="heroDots" aria-label="Carousel navigation dots"></div>
+              <div class="hero-nav">
+                <button class="hero-arrow" id="prevSlide" aria-label="Previous slide">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14.5 6.5-5 5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="hero-arrow" id="nextSlide" aria-label="Next slide">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9.5 6.5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section featured reveal" id="music">
+        <div class="container">
+          <article class="featured-card" id="featuredRelease">
+            <div class="featured-media">
+              <img id="featuredImage" src="" alt="">
+            </div>
+            <div class="featured-info">
+              <div class="featured-tag">latest release</div>
+              <h2 class="featured-title" id="featuredTitle"></h2>
+              <div class="featured-meta" id="featuredMeta"></div>
+              <p class="featured-copy" id="featuredDescription"></p>
+              <div class="player-controls" aria-label="Choose listening platform">
+                <button class="platform-button is-active" id="spotifyToggle" type="button">Spotify</button>
+                <button class="platform-button" id="appleToggle" type="button">Apple Music</button>
+              </div>
+              <div class="player-shell">
+                <iframe
+                  class="player-embed"
+                  id="featuredEmbed"
+                  title="Embedded music player"
+                  loading="lazy"
+                  allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                  sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation">
+                </iframe>
+                <div class="player-empty" id="playerEmpty">
+                  <div class="player-empty-inner">
+                    <strong>Player not available here yet.</strong>
+                    <span>Use the links below to open this release in the app when it lands.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="streaming-links">
+                <a id="openSpotifyLink" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">Open in Spotify</a>
+                <a id="openAppleLink" href="https://music.apple.com/gb/artist/raskyjack/1845586303" target="_blank" rel="noreferrer">Open in Apple Music</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">releases</span>
+              <h2 class="section-title">all releases.</h2>
+              <p class="section-copy">the full run so far.</p>
+            </div>
+            <a class="inline-link" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">
+              open Spotify
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+
+          <div class="filter-row">
+            <div class="filters" id="filters">
+              <button class="filter-chip active" data-filter="all">all</button>
+              <button class="filter-chip" data-filter="single">singles</button>
+              <button class="filter-chip" data-filter="ep">EPs</button>
+              <button class="filter-chip" data-filter="album">albums</button>
+              <button class="filter-chip" data-filter="collection">collections</button>
+            </div>
+          </div>
+
+          <div class="releases-grid" id="releasesGrid"></div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="live">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">live</span>
+              <h2 class="section-title">live.</h2>
+              <p class="section-copy">small rooms, bright lights, loud nights.</p>
+            </div>
+          </div>
+
+          <div class="live-grid">
+            <article class="live-card large">
+              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02050%202.JPEG" alt="Raskyjack performing live">
+              <div class="live-card-content">
+                <h3>mid-song.</h3>
+                <p>the kind of night that leaves your ears ringing on the walk home.</p>
+              </div>
+            </article>
+            <article class="live-card">
+              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01941.JPEG" alt="Raskyjack performance portrait">
+              <div class="live-card-content">
+                <h3>after dark.</h3>
+                <p>just guitar, room noise, and whatever the lights were doing.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="visuals">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">visuals</span>
+              <h2 class="section-title">visuals.</h2>
+              <p class="section-copy">videos, clips, and whatever else stuck.</p>
+            </div>
+          </div>
+
+          <div class="visual-grid">
+            <a class="visual-card" href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer">
+              <span class="video-pill">Visual</span>
+              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02006.JPEG" alt="Performance still">
+              <div class="visual-card-content">
+                <h3>Watch on YouTube</h3>
+                <p>official uploads, live takes, and bits from the road.</p>
+              </div>
+            </a>
+            <a class="visual-card" href="https://www.tiktok.com/@raskyjackmusic" target="_blank" rel="noreferrer">
+              <span class="video-pill">TikTok</span>
+              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01888.JPEG" alt="Live shot with neon lighting">
+              <div class="visual-card-content">
+                <h3>Short-form moments</h3>
+                <p>quick fragments, rough edges, late-night clips.</p>
+              </div>
+            </a>
+            <a class="visual-card" href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer">
+              <span class="video-pill">Photo</span>
+              <img src="file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02056.JPEG" alt="Performance image">
+              <div class="visual-card-content">
+                <h3>See the full feed</h3>
+                <p>photos, updates, and the moments between releases.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="about">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">about</span>
+              <h2 class="section-title">about.</h2>
+            </div>
+          </div>
+
+          <div class="about-wrap">
+            <article class="about-card">
+              <p>raskyjack makes music shaped by memory, movement, Suffolk nights, and whatever stays with you on the way home.</p>
+            </article>
+            <article class="contact-card" id="contact">
+              <p>find the music where you listen, and keep up with what comes next.</p>
+              <div class="contact-actions">
+                <a class="button primary" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">Spotify</a>
+                <a class="button secondary" href="https://music.apple.com/gb/artist/raskyjack/1845586303" target="_blank" rel="noreferrer">Apple Music</a>
+                <a class="button secondary" href="https://music.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer">YouTube Music</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer reveal">
+      <div class="container">
+        <div class="footer-inner">
+          <div>&copy; <span id="year"></span> raskyjack</div>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
+            </a>
+            <a href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer" aria-label="Spotify">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M7.4 10.4c3.2-1 6.4-.9 9.2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 13.3c2.4-.7 4.9-.6 7 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.7 16c1.7-.5 3.5-.4 5 .4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17 5.5 12 5.5 12 5.5s-5 0-6.9.6A3 3 0 0 0 3 8.2 31 31 0 0 0 3 12a31 31 0 0 0 .1 3.8 3 3 0 0 0 2.1 2.1c1.9.6 6.9.6 6.9.6s5 0 6.9-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 21 12a31 31 0 0 0-.1-3.8Z" stroke="currentColor" stroke-width="1.8"/><path d="m10 15 5-3-5-3v6Z" fill="currentColor"/></svg>
+            </a>
+            <a href="https://soundcloud.com/" target="_blank" rel="noreferrer" aria-label="SoundCloud">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 16.5a2.5 2.5 0 0 1 .8-4.9 4.7 4.7 0 0 1 9.1-1.4 3.4 3.4 0 1 1 1.3 6.3H6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const heroImages = [
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01933.JPEG",
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01888.JPEG",
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02011.JPEG",
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02050%202.JPEG",
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC02056.JPEG",
+      "file:///Users/rasky/Desktop/raskymusic/GIG%20PHOTOS/DSC01941.JPEG"
+    ];
+
+    const releaseData = [
+      {
+        slug: "brick-by-brick",
+        title: "Brick by Brick",
+        year: "2026",
+        type: "single",
+        description: "Brick by Brick leans into patience, pressure, and the slow work of keeping something together when it would be easier to let it fall.",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/brick%20by%20brick.PNG",
+        accent: ["#d8571f", "#7d170f"],
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/brick%20by%20brick%20raskyjack",
+            embed: "https://open.spotify.com/embed/search/brick%20by%20brick%20raskyjack?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20brick%20by%20brick",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20brick%20by%20brick"
+          }
+        }
+      },
+      {
+        slug: "suffolk",
+        title: "Suffolk",
+        year: "2025",
+        type: "ep",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/suffolk.png",
+        description: "A small run of songs carrying local names, late buses, and the feeling of getting home long after midnight.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/suffolk%20raskyjack",
+            embed: "https://open.spotify.com/embed/search/suffolk%20raskyjack?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20suffolk",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20suffolk"
+          }
+        }
+      },
+      {
+        slug: "illusions",
+        title: "Illusions",
+        year: "2025",
+        type: "album",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/Illusions.png",
+        description: "A full-length set built on blur, reflection, and all the things that feel true until they shift in the light.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/illusions%20raskyjack",
+            embed: "https://open.spotify.com/embed/search/illusions%20raskyjack?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/album/illusions/1846654874",
+            embed: "https://embed.music.apple.com/gb/album/illusions/1846654874"
+          }
+        }
+      },
+      {
+        slug: "heavy-woodbridge-nights",
+        title: "Heavy Woodbridge Nights",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/heavy%20woodbridge%20nights.png",
+        description: "Restless and local, with that specific kind of energy only a hometown night can leave behind.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/heavy%20woodbridge%20nights",
+            embed: "https://open.spotify.com/embed/search/heavy%20woodbridge%20nights?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20heavy%20woodbridge%20nights",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20heavy%20woodbridge%20nights"
+          }
+        }
+      },
+      {
+        slug: "monopoly",
+        title: "Monopoly",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/monopoly.PNG",
+        description: "A sharper edge in the catalogue, held back here until the player link catches up.",
+        platforms: {}
+      },
+      {
+        slug: "my-philosophy",
+        title: "My Philosophy",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/my%20philosophy.png",
+        description: "One for the quieter convictions, still waiting on an embedded player.",
+        platforms: {}
+      },
+      {
+        slug: "ride",
+        title: "Ride",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/ride.png",
+        description: "Fast moving, open-road energy with its headlights still on.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/ride%20raskyjack",
+            embed: "https://open.spotify.com/embed/search/ride%20raskyjack?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20ride",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20ride"
+          }
+        }
+      },
+      {
+        slug: "senorita",
+        title: "Señorita",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/Sen%CC%83orita.png",
+        description: "Still off-player for now, but part of the same run of late-night singles.",
+        platforms: {}
+      },
+      {
+        slug: "sunshine-swimming",
+        title: "Sunshine Swimming",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/238648E5-053F-44FD-929F-9ABD2D8C2BE0.JPG",
+        description: "Lighter on the surface, still carrying the same undertow.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/sunshine%20swimming%20raskyjack",
+            embed: "https://open.spotify.com/embed/search/sunshine%20swimming%20raskyjack?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20sunshine%20swimming",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20sunshine%20swimming"
+          }
+        }
+      },
+      {
+        slug: "back-to-kind",
+        title: "Back to Kind",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/back%20to%20kind.png",
+        description: "One of the softer turns in the release run, not embedded here yet.",
+        platforms: {}
+      },
+      {
+        slug: "disco",
+        title: "Disco",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/disco.png",
+        description: "Bright colours, sharp edges, and a pulse that keeps pulling forward.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/album/3yHSPnXOlYAZXSsuwy5RI3",
+            embed: "https://open.spotify.com/embed/album/3yHSPnXOlYAZXSsuwy5RI3?utm_source=generator"
+          }
+        }
+      },
+      {
+        slug: "verified",
+        title: "Verified",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/verified.png",
+        description: "Cold blue light, clean lines, and a release that lands a little differently.",
+        platforms: {
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20verified",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20verified"
+          }
+        }
+      },
+      {
+        slug: "shnorkipus",
+        title: "Shnorkipus",
+        year: "2025",
+        type: "single",
+        image: "file:///Users/rasky/Desktop/raskymusic/Artwork/0B449E79-D0CB-4099-867A-CE008ECD5074.jpg",
+        description: "A strange little turn in the catalogue, best met head-on.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/search/shnorkipus",
+            embed: "https://open.spotify.com/embed/search/shnorkipus?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/gb/search?term=raskyjack%20shnorkipus",
+            embed: "https://embed.music.apple.com/gb/search?term=raskyjack%20shnorkipus"
+          }
+        }
+      }
+    ];
+
+    let currentRelease = releaseData[0];
+    let currentPlatform = "spotify";
+
+    const heroSlides = document.getElementById("heroSlides");
+    const heroDots = document.getElementById("heroDots");
+    const releasesGrid = document.getElementById("releasesGrid");
+    const filters = document.getElementById("filters");
+    const featuredCard = document.getElementById("featuredRelease");
+    const featuredImage = document.getElementById("featuredImage");
+    const featuredTitle = document.getElementById("featuredTitle");
+    const featuredMeta = document.getElementById("featuredMeta");
+    const featuredDescription = document.getElementById("featuredDescription");
+    const featuredEmbed = document.getElementById("featuredEmbed");
+    const playerEmpty = document.getElementById("playerEmpty");
+    const spotifyToggle = document.getElementById("spotifyToggle");
+    const appleToggle = document.getElementById("appleToggle");
+    const openSpotifyLink = document.getElementById("openSpotifyLink");
+    const openAppleLink = document.getElementById("openAppleLink");
+    const nav = document.getElementById("nav");
+    const navToggle = document.getElementById("navToggle");
+    const year = document.getElementById("year");
+
+    year.textContent = new Date().getFullYear();
+
+    function capitalize(value) {
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+
+    function setExternalLink(element, link) {
+      if (link) {
+        element.href = link;
+        element.classList.remove("is-disabled");
+        element.setAttribute("aria-disabled", "false");
+        element.tabIndex = 0;
+      } else {
+        element.removeAttribute("href");
+        element.classList.add("is-disabled");
+        element.setAttribute("aria-disabled", "true");
+        element.tabIndex = -1;
+      }
+    }
+
+    function hasEmbed(release, platform) {
+      return Boolean(release.platforms?.[platform]?.embed);
+    }
+
+    function choosePlatform(release, preferredPlatform) {
+      if (hasEmbed(release, preferredPlatform)) {
+        return preferredPlatform;
+      }
+
+      if (hasEmbed(release, "spotify")) {
+        return "spotify";
+      }
+
+      if (hasEmbed(release, "apple")) {
+        return "apple";
+      }
+
+      return preferredPlatform;
+    }
+
+    function setPlatformButtons(release, platform) {
+      const spotifyAvailable = hasEmbed(release, "spotify");
+      const appleAvailable = hasEmbed(release, "apple");
+
+      spotifyToggle.disabled = !spotifyAvailable;
+      appleToggle.disabled = !appleAvailable;
+      spotifyToggle.classList.toggle("is-active", platform === "spotify" && spotifyAvailable);
+      appleToggle.classList.toggle("is-active", platform === "apple" && appleAvailable);
+    }
+
+    function setEmbedSource(src) {
+      if (!src) {
+        featuredEmbed.removeAttribute("src");
+        playerEmpty.classList.add("is-visible");
+        return;
+      }
+
+      playerEmpty.classList.remove("is-visible");
+      featuredEmbed.classList.add("is-loading");
+      featuredEmbed.src = src;
+    }
+
+    featuredEmbed.addEventListener("load", () => {
+      featuredEmbed.classList.remove("is-loading");
+    });
+
+    function updateActiveCard() {
+      [...releasesGrid.querySelectorAll(".release-card")].forEach((card) => {
+        card.classList.toggle("is-active", card.dataset.slug === currentRelease.slug);
+      });
+    }
+
+    function updateFeaturedRelease(release, options = {}) {
+      const { scroll = false } = options;
+      currentRelease = release;
+      currentPlatform = choosePlatform(release, currentPlatform);
+
+      featuredImage.src = release.image;
+      featuredImage.alt = `${release.title} artwork`;
+      featuredTitle.textContent = release.title;
+      featuredMeta.textContent = `${release.year} / ${capitalize(release.type)}`;
+      featuredDescription.textContent = release.description || "";
+
+      const [accentOne, accentTwo] = release.accent || ["#d8571f", "#7d170f"];
+      featuredCard.style.setProperty("--feature-accent", accentOne);
+      featuredCard.style.setProperty("--feature-accent-2", accentTwo);
+
+      setPlatformButtons(release, currentPlatform);
+      setEmbedSource(release.platforms?.[currentPlatform]?.embed || "");
+      setExternalLink(openSpotifyLink, release.platforms?.spotify?.link || "");
+      setExternalLink(openAppleLink, release.platforms?.apple?.link || "");
+      updateActiveCard();
+
+      if (scroll) {
+        document.getElementById("music").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function buildHero() {
+      heroImages.forEach((image, index) => {
+        const slide = document.createElement("div");
+        slide.className = `hero-slide${index === 0 ? " active" : ""}`;
+        slide.style.setProperty("--slide-image", `url("${image}")`);
+        slide.setAttribute("role", "img");
+        slide.setAttribute("aria-label", `Live image ${index + 1}`);
+        heroSlides.appendChild(slide);
+
+        const dot = document.createElement("button");
+        dot.className = `hero-dot${index === 0 ? " active" : ""}`;
+        dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+        dot.addEventListener("click", () => {
+          goToSlide(index);
+          resetInterval();
+        });
+        heroDots.appendChild(dot);
+      });
+    }
+
+    function buildReleases() {
+      releaseData.forEach((release) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "release-card";
+        card.dataset.type = release.type;
+        card.dataset.slug = release.slug;
+
+        card.innerHTML = `
+          <div class="release-cover">
+            <img src="${release.image}" alt="${release.title} artwork">
+            <span class="release-badge">${release.type}</span>
+          </div>
+          <div class="release-meta">
+            <div>
+              <h3 class="release-title">${release.title}</h3>
+              <div class="release-type">${capitalize(release.type)}</div>
+            </div>
+            <div class="release-year">${release.year}</div>
+          </div>
+          <div class="release-arrow" aria-hidden="true">
+            <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+              <path d="M16 26 26 16M18 16h8v8" stroke="#16120f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        `;
+
+        card.addEventListener("click", () => {
+          updateFeaturedRelease(release, { scroll: true });
+        });
+
+        releasesGrid.appendChild(card);
+      });
+    }
+
+    let currentSlide = 0;
+    let slideTimer;
+
+    function updateSlides() {
+      const slides = [...document.querySelectorAll(".hero-slide")];
+      const dots = [...document.querySelectorAll(".hero-dot")];
+      slides.forEach((slide, index) => {
+        slide.classList.toggle("active", index === currentSlide);
+      });
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentSlide);
+      });
+    }
+
+    function goToSlide(index) {
+      const total = heroImages.length;
+      currentSlide = (index + total) % total;
+      updateSlides();
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide + 1);
+    }
+
+    function previousSlide() {
+      goToSlide(currentSlide - 1);
+    }
+
+    function resetInterval() {
+      clearInterval(slideTimer);
+      slideTimer = setInterval(nextSlide, 5000);
+    }
+
+    document.getElementById("nextSlide").addEventListener("click", () => {
+      nextSlide();
+      resetInterval();
+    });
+
+    document.getElementById("prevSlide").addEventListener("click", () => {
+      previousSlide();
+      resetInterval();
+    });
+
+    spotifyToggle.addEventListener("click", () => {
+      if (!hasEmbed(currentRelease, "spotify")) return;
+      currentPlatform = "spotify";
+      updateFeaturedRelease(currentRelease);
+    });
+
+    appleToggle.addEventListener("click", () => {
+      if (!hasEmbed(currentRelease, "apple")) return;
+      currentPlatform = "apple";
+      updateFeaturedRelease(currentRelease);
+    });
+
+    filters.addEventListener("click", (event) => {
+      const button = event.target.closest(".filter-chip");
+      if (!button) return;
+
+      [...filters.querySelectorAll(".filter-chip")].forEach((chip) => chip.classList.remove("active"));
+      button.classList.add("active");
+
+      const selected = button.dataset.filter;
+      [...releasesGrid.children].forEach((card) => {
+        const shouldShow = selected === "all" || card.dataset.type === selected;
+        card.classList.toggle("is-hidden", !shouldShow);
+      });
+    });
+
+    navToggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+    });
+
+    [...document.querySelectorAll(".nav a")].forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    document.querySelectorAll(".reveal").forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+    function onScroll() {
+      const y = window.scrollY || window.pageYOffset;
+      document.documentElement.style.setProperty("--hero-shift", `${Math.min(y * 0.12, 42)}px`);
+      nav.classList.toggle("scrolled", y > 18);
+    }
+
+    buildHero();
+    buildReleases();
+    updateFeaturedRelease(currentRelease);
+    updateSlides();
+    resetInterval();
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+  </script>
+</body>
+</html>
