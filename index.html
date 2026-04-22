@@ -27,6 +27,7 @@
       --max: 1320px;
       --nav-height: 82px;
       --hero-shift: 0px;
+      --player-height: 620px;
       color-scheme: light;
       scroll-behavior: smooth;
     }
@@ -35,16 +36,27 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
+      min-height: 100%;
       background-color: var(--bg);
       background-image: radial-gradient(circle at top left, rgba(255, 160, 68, 0.18), transparent 26%),
                   radial-gradient(circle at top right, rgba(20, 146, 255, 0.14), transparent 20%),
                   linear-gradient(180deg, #fbf9f5 0%, #f5f1ea 100%);
       color: var(--text);
       font-family: "Manrope", sans-serif;
+    }
+
+    html {
       overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body {
+      overflow-x: hidden;
+      overflow-y: hidden;
     }
 
     body::before {
@@ -98,6 +110,9 @@
     }
 
     .section {
+      --scene-progress: 0;
+      --scene-shift: 0px;
+      --scene-drift: 0px;
       padding: 36px 0 0;
     }
 
@@ -107,6 +122,8 @@
       justify-content: space-between;
       gap: 24px;
       margin-bottom: 24px;
+      transform: translate3d(0, calc(var(--scene-shift) * -0.16), 0);
+      transition: transform 220ms linear;
     }
 
     .eyebrow {
@@ -247,6 +264,9 @@
 
     .hero {
       position: relative;
+      --scene-progress: 0;
+      --scene-shift: 0px;
+      --scene-drift: 0px;
       min-height: 100svh;
       padding: calc(var(--nav-height) + 54px) 0 28px;
       display: flex;
@@ -262,6 +282,9 @@
       box-shadow: var(--shadow);
       isolation: isolate;
       background: #120d09;
+      transform: translate3d(0, calc(var(--scene-shift) * -0.18), 0) scale(calc(1 + (var(--scene-progress) * 0.018)));
+      transform-origin: center center;
+      transition: transform 220ms linear;
     }
 
     .hero-slides {
@@ -327,6 +350,8 @@
       color: #fff7f0;
       align-self: center;
       animation: riseIn 900ms 120ms both cubic-bezier(.22, 1, .36, 1);
+      transform: translate3d(0, calc(var(--scene-shift) * -0.34), 0);
+      transition: transform 220ms linear;
     }
 
     .hero-kicker {
@@ -423,6 +448,8 @@
       display: grid;
       gap: 14px;
       animation: riseIn 900ms 240ms both cubic-bezier(.22, 1, .36, 1);
+      transform: translate3d(0, calc(var(--scene-shift) * 0.18), 0);
+      transition: transform 220ms linear;
     }
 
     .glass-card {
@@ -511,6 +538,8 @@
       background: rgba(255, 247, 240, 0.08);
       border: 1px solid rgba(255, 247, 240, 0.12);
       border-radius: 999px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
       -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
     }
@@ -584,8 +613,12 @@
 
     .featured-card {
       position: relative;
+      --scene-progress: 0;
+      --scene-shift: 0px;
+      --scene-drift: 0px;
       display: grid;
       grid-template-columns: minmax(300px, 0.88fr) minmax(0, 1.12fr);
+      align-items: start;
       gap: clamp(18px, 3vw, 34px);
       padding: clamp(18px, 3vw, 28px);
       border-radius: var(--radius-xl);
@@ -595,6 +628,9 @@
         linear-gradient(135deg, var(--feature-accent), var(--feature-accent-2));
       color: #fff7f0;
       box-shadow: var(--shadow);
+      transform: translate3d(0, calc(var(--scene-shift) * -0.08), 0) scale(calc(0.985 + (var(--scene-progress) * 0.02)));
+      transform-origin: center top;
+      transition: transform 220ms linear;
     }
 
     .featured-card::after {
@@ -617,11 +653,25 @@
       border-radius: calc(var(--radius-xl) - 10px);
       overflow: hidden;
       box-shadow: 0 24px 50px rgba(10, 8, 7, 0.22);
-      min-height: 100%;
+      width: min(100%, 520px);
+      max-width: 100%;
+      min-height: auto;
       aspect-ratio: 1 / 1;
       display: grid;
       place-items: center;
+      align-self: start;
       background: rgba(255, 247, 240, 0.08);
+    }
+
+    .featured-media-stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      align-content: start;
+      transform: translate3d(calc(var(--scene-drift) * -0.18), calc(var(--scene-shift) * -0.1), 0);
+      transition: transform 220ms linear;
     }
 
     .featured-media img {
@@ -633,9 +683,11 @@
 
     .featured-info {
       display: grid;
-      align-content: center;
-      gap: 18px;
+      align-content: start;
+      gap: 16px;
       padding: clamp(6px, 1.5vw, 12px) 0;
+      transform: translate3d(calc(var(--scene-drift) * 0.22), calc(var(--scene-shift) * 0.04), 0);
+      transition: transform 220ms linear;
     }
 
     .featured-tag {
@@ -649,7 +701,7 @@
     .featured-title {
       margin: 0;
       font-family: "Sora", sans-serif;
-      font-size: clamp(2.3rem, 5vw, 5rem);
+      font-size: clamp(2.3rem, 4.2vw, 4.6rem);
       line-height: 0.94;
       letter-spacing: -0.07em;
     }
@@ -665,6 +717,7 @@
       color: rgba(255, 247, 240, 0.84);
       line-height: 1.78;
       font-size: 1rem;
+      margin-bottom: 4px;
     }
 
     .player-controls {
@@ -709,8 +762,9 @@
     .player-shell {
       position: relative;
       overflow: hidden;
+      overscroll-behavior: contain;
       border-radius: 24px;
-      min-height: 392px;
+      min-height: var(--player-height);
       background: rgba(12, 8, 4, 0.16);
       border: 1px solid rgba(255, 247, 240, 0.14);
       box-shadow: inset 0 1px 0 rgba(255, 247, 240, 0.08);
@@ -719,9 +773,10 @@
     .player-embed {
       position: relative;
       width: 100%;
-      height: 392px;
+      height: var(--player-height);
       border: 0;
       display: block;
+      overscroll-behavior: contain;
       background: rgba(12, 8, 4, 0.18);
       opacity: 1;
       transition: opacity 220ms ease;
@@ -769,6 +824,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      justify-content: center;
+      width: 100%;
     }
 
     .streaming-links a {
@@ -783,6 +840,7 @@
       color: #fff7f0;
       font-size: 0.94rem;
       font-weight: 700;
+      justify-content: center;
       transition: transform 220ms ease, background-color 220ms ease, opacity 220ms ease, border-color 220ms ease;
     }
 
@@ -840,6 +898,7 @@
 
     .release-card {
       position: relative;
+      --card-drift: 0px;
       display: grid;
       gap: 12px;
       padding: 12px;
@@ -849,10 +908,11 @@
       box-shadow: 0 10px 28px rgba(31, 21, 11, 0.05);
       transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
       overflow: hidden;
+      transform: translate3d(0, var(--card-drift), 0);
     }
 
     .release-card:hover {
-      transform: translateY(-6px);
+      transform: translate3d(0, calc(var(--card-drift) - 6px), 0);
       box-shadow: 0 24px 44px rgba(31, 21, 11, 0.1);
       border-color: rgba(255, 122, 24, 0.18);
     }
@@ -963,6 +1023,8 @@
       background: #120d09;
       box-shadow: var(--shadow);
       isolation: isolate;
+      transform: translate3d(calc(var(--scene-drift) * 0.08), calc(var(--scene-shift) * 0.08), 0);
+      transition: transform 220ms linear;
     }
 
     .live-card.large {
@@ -1056,6 +1118,8 @@
       background: rgba(255, 255, 255, 0.76);
       border: 1px solid rgba(22, 18, 15, 0.08);
       box-shadow: 0 14px 36px rgba(31, 21, 11, 0.06);
+      transform: translate3d(0, calc(var(--scene-shift) * 0.05), 0);
+      transition: transform 220ms linear, box-shadow 260ms ease, border-color 260ms ease;
     }
 
     .about-card p,
@@ -1319,6 +1383,23 @@
       }
     }
 
+    @media (max-width: 899px) {
+      .hero-stage,
+      .hero-copy,
+      .hero-side,
+      .featured-card,
+      .featured-media-stack,
+      .featured-info,
+      .section-heading,
+      .live-card,
+      .visual-card,
+      .about-card,
+      .contact-card,
+      .release-card {
+        transform: none !important;
+      }
+    }
+
     @media (min-width: 1360px) {
       .releases-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1333,6 +1414,10 @@
 
       .hero-side {
         justify-self: stretch;
+        width: 100%;
+      }
+
+      .featured-media-stack {
         width: 100%;
       }
     }
@@ -1431,8 +1516,8 @@
 
       .player-shell,
       .player-embed {
-        min-height: 332px;
-        height: 332px;
+        min-height: 560px;
+        height: 560px;
       }
 
       .live-card,
@@ -1442,6 +1527,21 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .hero-stage,
+      .hero-copy,
+      .hero-side,
+      .featured-card,
+      .featured-media-stack,
+      .featured-info,
+      .section-heading,
+      .live-card,
+      .visual-card,
+      .about-card,
+      .contact-card,
+      .release-card {
+        transform: none !important;
+      }
+
       *,
       *::before,
       *::after {
@@ -1555,8 +1655,15 @@
       <section class="section featured reveal" id="music">
         <div class="container">
           <article class="featured-card" id="featuredRelease">
-            <div class="featured-media">
-              <img id="featuredImage" src="" alt="">
+            <div class="featured-media-stack">
+              <div class="featured-media">
+                <img id="featuredImage" src="" alt="">
+              </div>
+              <div class="streaming-links">
+                <a id="openSpotifyLink" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">Open in Spotify</a>
+                <a id="openAppleLink" href="https://music.apple.com/gb/artist/raskyjack/1845586303" target="_blank" rel="noreferrer">Open in Apple Music</a>
+                <a id="openYouTubeMusicLink" href="https://music.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer">Open in YouTube Music</a>
+              </div>
             </div>
             <div class="featured-info">
               <div class="featured-tag">latest release</div>
@@ -1573,6 +1680,7 @@
                   id="featuredEmbed"
                   title="Embedded music player"
                   loading="lazy"
+                  scrolling="no"
                   allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
                   sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation">
                 </iframe>
@@ -1582,10 +1690,6 @@
                     <span>Use the links below to open this release in the app when it lands.</span>
                   </div>
                 </div>
-              </div>
-              <div class="streaming-links">
-                <a id="openSpotifyLink" href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer">Open in Spotify</a>
-                <a id="openAppleLink" href="https://music.apple.com/gb/artist/raskyjack/1845586303" target="_blank" rel="noreferrer">Open in Apple Music</a>
               </div>
             </div>
           </article>
@@ -1721,14 +1825,20 @@
         <div class="footer-inner">
           <div>&copy; <span id="year"></span> raskyjack</div>
           <div class="footer-socials">
-            <a href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer" aria-label="Instagram">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
-            </a>
             <a href="https://open.spotify.com/artist/1kqN5dSAQmj97lQ9CmBjcG?si=3cddlizNQzuX9NA3SkWcJQ" target="_blank" rel="noreferrer" aria-label="Spotify">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M7.4 10.4c3.2-1 6.4-.9 9.2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 13.3c2.4-.7 4.9-.6 7 .5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.7 16c1.7-.5 3.5-.4 5 .4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </a>
+            <a href="https://music.apple.com/gb/artist/raskyjack/1845586303" target="_blank" rel="noreferrer" aria-label="Apple Music">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15.1 4.2c.9-1.1 1.4-2.5 1.2-3.7-1.3.1-2.8.9-3.7 2-.8.9-1.4 2.4-1.2 3.7 1.4.1 2.8-.7 3.7-2Z" fill="currentColor"/><path d="M17.2 12.5c0-2 1.6-3 1.7-3.1-1-1.5-2.6-1.8-3.2-1.8-1.3-.1-2.6.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.9-3.6 2.2-1.6 2.8-.4 7 1.2 9.2.8 1.1 1.7 2.3 2.9 2.2 1.1 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.9-2.2.9-1.3 1.3-2.6 1.3-2.7-.1 0-3.2-1.2-3.2-4Z" fill="currentColor"/>
+            </a>
             <a href="https://www.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w" target="_blank" rel="noreferrer" aria-label="YouTube">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 8.2a3 3 0 0 0-2.1-2.1C17 5.5 12 5.5 12 5.5s-5 0-6.9.6A3 3 0 0 0 3 8.2 31 31 0 0 0 3 12a31 31 0 0 0 .1 3.8 3 3 0 0 0 2.1 2.1c1.9.6 6.9.6 6.9.6s5 0 6.9-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 21 12a31 31 0 0 0-.1-3.8Z" stroke="currentColor" stroke-width="1.8"/><path d="m10 15 5-3-5-3v6Z" fill="currentColor"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@raskyjackmusic" target="_blank" rel="noreferrer" aria-label="TikTok">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 4c.6 1.7 1.8 3 3.5 3.8V11c-1.4 0-2.7-.4-3.8-1.2v5.1a5 5 0 1 1-5-5c.3 0 .6 0 .8.1v3.1a2 2 0 1 0 1.2 1.8V4h3.3Z" fill="currentColor"/>
+            </a>
+            <a href="https://www.instagram.com/raskyjack/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg>
             </a>
             <a href="https://soundcloud.com/" target="_blank" rel="noreferrer" aria-label="SoundCloud">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 16.5a2.5 2.5 0 0 1 .8-4.9 4.7 4.7 0 0 1 9.1-1.4 3.4 3.4 0 1 1 1.3 6.3H6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
@@ -1816,6 +1926,9 @@
           apple: {
             link: "https://music.apple.com/us/album/brick-by-brick-single/1889091533",
             embed: "https://embed.music.apple.com/us/album/brick-by-brick-single/1889091533?app=music"
+          },
+          youtubeMusic: {
+            link: "https://music.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w"
           }
         }
       },
@@ -2011,6 +2124,16 @@
       }
     ];
 
+    function shuffleList(items) {
+      const shuffled = [...items];
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    let heroSequence = shuffleList(heroImages);
     let currentRelease = releaseData[0];
     let currentPlatform = "spotify";
 
@@ -2029,6 +2152,7 @@
     const appleToggle = document.getElementById("appleToggle");
     const openSpotifyLink = document.getElementById("openSpotifyLink");
     const openAppleLink = document.getElementById("openAppleLink");
+    const openYouTubeMusicLink = document.getElementById("openYouTubeMusicLink");
     const nav = document.getElementById("nav");
     const navToggle = document.getElementById("navToggle");
     const year = document.getElementById("year");
@@ -2119,11 +2243,18 @@
       const [accentOne, accentTwo] = release.accent || ["#d8571f", "#7d170f"];
       featuredCard.style.setProperty("--feature-accent", accentOne);
       featuredCard.style.setProperty("--feature-accent-2", accentTwo);
+      const isApple = currentPlatform === "apple";
+      const tallRelease = release.type === "album" || release.type === "ep";
+      const playerHeight = isApple
+        ? (tallRelease ? "760px" : "680px")
+        : (tallRelease ? "680px" : "540px");
+      featuredCard.style.setProperty("--player-height", playerHeight);
 
       setPlatformButtons(release, currentPlatform);
       setEmbedSource(release.platforms?.[currentPlatform]?.embed || "");
       setExternalLink(openSpotifyLink, release.platforms?.spotify?.link || "");
       setExternalLink(openAppleLink, release.platforms?.apple?.link || "");
+      setExternalLink(openYouTubeMusicLink, release.platforms?.youtubeMusic?.link || "");
       updateActiveCard();
 
       if (scroll) {
@@ -2132,7 +2263,7 @@
     }
 
     function buildHero() {
-      heroImages.forEach((image, index) => {
+      heroSequence.forEach((image, index) => {
         const slide = document.createElement("div");
         slide.className = `hero-slide${index === 0 ? " active" : ""}`;
         slide.style.setProperty("--slide-image", `url("${image}")`);
@@ -2158,6 +2289,7 @@
         card.className = "release-card";
         card.dataset.type = release.type;
         card.dataset.slug = release.slug;
+        card.dataset.index = String(releasesGrid.children.length);
 
         card.innerHTML = `
           <div class="release-cover">
@@ -2214,8 +2346,24 @@
     }
 
     function goToSlide(index) {
-      const total = heroImages.length;
-      currentSlide = (index + total) % total;
+      const total = heroSequence.length;
+
+      if (index >= total) {
+        heroSequence = shuffleList(heroImages);
+        currentSlide = 0;
+        heroSlides.innerHTML = "";
+        heroDots.innerHTML = "";
+        buildHero();
+      } else if (index < 0) {
+        heroSequence = shuffleList(heroImages);
+        currentSlide = total - 1;
+        heroSlides.innerHTML = "";
+        heroDots.innerHTML = "";
+        buildHero();
+      } else {
+        currentSlide = index;
+      }
+
       updateSlides();
     }
 
@@ -2293,10 +2441,66 @@
       revealObserver.observe(element);
     });
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sceneElements = [
+      document.querySelector(".hero"),
+      ...document.querySelectorAll("main > .section")
+    ].filter(Boolean);
+
+    function updateScrollScenes() {
+      if (prefersReducedMotion.matches) {
+        sceneElements.forEach((scene) => {
+          scene.style.setProperty("--scene-progress", "0");
+          scene.style.setProperty("--scene-shift", "0px");
+          scene.style.setProperty("--scene-drift", "0px");
+        });
+
+        [...document.querySelectorAll(".release-card")].forEach((card) => {
+          card.style.setProperty("--card-drift", "0px");
+        });
+
+        return;
+      }
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      sceneElements.forEach((scene) => {
+        const rect = scene.getBoundingClientRect();
+        const centerOffset = ((rect.top + rect.height * 0.5) - viewportHeight * 0.54) / viewportHeight;
+        const clampedOffset = Math.max(-1, Math.min(1, centerOffset));
+        const progress = 1 - Math.min(1, Math.abs(clampedOffset));
+
+        scene.style.setProperty("--scene-progress", progress.toFixed(4));
+        scene.style.setProperty("--scene-shift", `${(clampedOffset * 68).toFixed(2)}px`);
+        scene.style.setProperty("--scene-drift", `${(clampedOffset * 42).toFixed(2)}px`);
+      });
+
+      [...document.querySelectorAll(".release-card")].forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const cardOffset = ((rect.top + rect.height * 0.5) - viewportHeight * 0.64) / viewportHeight;
+        const clampedOffset = Math.max(-1, Math.min(1, cardOffset));
+        const index = Number(card.dataset.index || 0);
+        const laneBias = ((index % 3) - 1) * 4;
+        card.style.setProperty("--card-drift", `${(clampedOffset * 20 + laneBias).toFixed(2)}px`);
+      });
+    }
+
     function onScroll() {
       const y = window.scrollY || window.pageYOffset;
       document.documentElement.style.setProperty("--hero-shift", `${Math.min(y * 0.12, 42)}px`);
       nav.classList.toggle("scrolled", y > 18);
+      updateScrollScenes();
+    }
+
+    let scrollTicking = false;
+
+    function scheduleScrollEffects() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(() => {
+        onScroll();
+        scrollTicking = false;
+      });
     }
 
     buildHero();
@@ -2306,7 +2510,9 @@
     resetInterval();
     onScroll();
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", scheduleScrollEffects, { passive: true });
+    window.addEventListener("resize", scheduleScrollEffects, { passive: true });
+    prefersReducedMotion.addEventListener("change", scheduleScrollEffects);
   </script>
 </body>
 </html>
