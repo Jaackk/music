@@ -98,6 +98,51 @@
       pointer-events: none;
       z-index: 0;
       overflow: hidden;
+      --gutter-width: calc((100vw - min(1320px, calc(100vw - 32px))) / 2);
+    }
+
+    .logo-wall::before,
+    .logo-wall::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: max(0px, calc(var(--gutter-width) - 8px));
+      opacity: 0.14;
+      background-repeat: repeat-y, repeat-y, repeat-y, repeat-y, repeat-y;
+      background-size: 86px auto, 58px auto, 74px auto, 62px auto, 96px auto;
+    }
+
+    .logo-wall::before {
+      left: 0;
+      background-image:
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png");
+      background-position:
+        10px 12px,
+        68px 42px,
+        126px 6px,
+        186px 34px,
+        244px 18px;
+    }
+
+    .logo-wall::after {
+      right: 0;
+      background-image:
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png"),
+        url("raskylogo.png");
+      background-position:
+        14px 28px,
+        74px 4px,
+        132px 38px,
+        192px 12px,
+        248px 48px;
     }
 
     .logo-wall img {
@@ -112,6 +157,7 @@
       user-select: none;
       filter: none;
       mix-blend-mode: normal;
+      display: none;
     }
 
     .noise {
@@ -2193,57 +2239,7 @@
     year.textContent = new Date().getFullYear();
 
     function buildLogoWall() {
-      const logoWall = document.querySelector(".logo-wall");
-      if (!logoWall) return;
-
-      logoWall.innerHTML = "";
-      const pageHeight = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight,
-        logoWall.scrollHeight
-      );
-      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-      const contentWidth = Math.min(viewportWidth - 32, 1320);
-      const gutterWidth = Math.max(0, (viewportWidth - contentWidth) / 2);
-      const sideInset = 14;
-      const safeGutter = Math.max(0, gutterWidth - sideInset * 2);
-      const columnCount = Math.max(4, Math.min(6, Math.floor(safeGutter / 58)));
-      const baseStep = safeGutter / Math.max(1, columnCount);
-      const widths = [72, 58, 84, 64, 78, 54, 88, 62];
-      const rotations = [-10, 7, -6, 11, -8, 5, 9, -4];
-      const rowStep = 62;
-
-      function appendLogo(xValue, yValue, widthValue, rotationValue, alignRight = false) {
-        const img = document.createElement("img");
-        img.src = "raskylogo.png";
-        img.alt = "";
-        img.style.setProperty("--x", alignRight ? `calc(100% - ${xValue + widthValue}px)` : `${xValue}px`);
-        img.style.setProperty("--y", `${yValue}px`);
-        img.style.setProperty("--w", `${widthValue}px`);
-        img.style.setProperty("--r", `${rotationValue}deg`);
-        logoWall.appendChild(img);
-      }
-
-      for (let row = 0, y = 10; y <= pageHeight + rowStep; row += 1, y += rowStep) {
-        for (let column = 0; column < columnCount; column += 1) {
-          const width = widths[(row + column) % widths.length];
-          const rotation = rotations[(row + column) % rotations.length];
-          const cellOffset = row % 2 === 0 ? 0 : baseStep * 0.32;
-          const x = sideInset + (column * baseStep) + cellOffset;
-
-          if (x + width <= gutterWidth - sideInset) {
-            appendLogo(x, y + ((column % 2) * 10), width, rotation);
-          }
-
-          const rightWidth = widths[(row + column + 3) % widths.length];
-          const rightRotation = rotations[(row + column + 4) % rotations.length] * -1;
-          const rightX = sideInset + (column * baseStep) + cellOffset;
-
-          if (rightX + rightWidth <= gutterWidth - sideInset) {
-            appendLogo(rightX, y + (((column + 1) % 2) * 10), rightWidth, rightRotation, true);
-          }
-        }
-      }
+      return;
     }
 
     function capitalize(value) {
