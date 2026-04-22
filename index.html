@@ -20,6 +20,11 @@
       --accent: #ff7a18;
       --accent-2: #ff3d77;
       --accent-3: #1492ff;
+      --page-accent-1: rgba(255, 160, 68, 0.18);
+      --page-accent-2: rgba(20, 146, 255, 0.14);
+      --page-glow-1: rgba(255, 122, 24, 0.09);
+      --page-glow-2: rgba(255, 61, 119, 0.08);
+      --page-glow-3: rgba(20, 146, 255, 0.08);
       --shadow: 0 20px 60px rgba(49, 32, 12, 0.12);
       --radius-xl: 32px;
       --radius-lg: 24px;
@@ -42,9 +47,10 @@
       padding: 0;
       min-height: 100%;
       background-color: var(--bg);
-      background-image: radial-gradient(circle at top left, rgba(255, 160, 68, 0.18), transparent 26%),
-                  radial-gradient(circle at top right, rgba(20, 146, 255, 0.14), transparent 20%),
+      background-image: radial-gradient(circle at top left, var(--page-accent-1), transparent 26%),
+                  radial-gradient(circle at top right, var(--page-accent-2), transparent 20%),
                   linear-gradient(180deg, #fbf9f5 0%, #f5f1ea 100%);
+      transition: background-image 420ms ease, background-color 420ms ease;
       color: var(--text);
       font-family: "Manrope", sans-serif;
     }
@@ -65,10 +71,11 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 15% 20%, rgba(255, 122, 24, 0.09), transparent 18%),
-        radial-gradient(circle at 85% 8%, rgba(255, 61, 119, 0.08), transparent 16%),
-        radial-gradient(circle at 80% 78%, rgba(20, 146, 255, 0.08), transparent 20%);
+        radial-gradient(circle at 15% 20%, var(--page-glow-1), transparent 18%),
+        radial-gradient(circle at 85% 8%, var(--page-glow-2), transparent 16%),
+        radial-gradient(circle at 80% 78%, var(--page-glow-3), transparent 20%);
       z-index: -1;
+      transition: background 420ms ease;
     }
 
     img {
