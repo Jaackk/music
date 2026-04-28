@@ -851,6 +851,24 @@
       box-shadow: inset 0 1px 0 rgba(255, 247, 240, 0.08);
     }
 
+
+    .player-shell.is-empty {
+      min-height: 180px;
+    }
+
+    .player-shell.is-empty .player-embed {
+      display: none;
+    }
+
+    .player-shell.is-empty .player-empty {
+      position: relative;
+      min-height: 180px;
+    }
+
+    .player-embed {
+      pointer-events: none;
+    }
+
     .player-embed {
       position: relative;
       width: 100%;
@@ -1702,6 +1720,21 @@
         height: 560px;
       }
 
+      .player-shell.is-empty {
+        min-height: 180px;
+        height: auto;
+      }
+
+      .player-shell.is-empty .player-embed {
+        display: none;
+        height: 0;
+        min-height: 0;
+      }
+
+      .player-shell.is-empty .player-empty {
+        min-height: 180px;
+      }
+
       .live-card,
       .visual-card {
         min-height: 340px;
@@ -1732,6 +1765,25 @@
         scroll-behavior: auto !important;
       }
     }
+
+    /* Mobile-only cleanup: hide hero side panels and player */
+
+    @media (max-width: 899px) {
+      .hero-side,
+      .hero-stat,
+      .hero-visuals,
+      .player-controls,
+      .player-shell,
+      .player-empty {
+        display: none !important;
+      }
+
+      .featured-info {
+        gap: 12px;
+      }
+    }
+
+
   </style>
 </head>
 <body>
@@ -2336,6 +2388,7 @@
     const featuredDescription = document.getElementById("featuredDescription");
     const featuredEmbed = document.getElementById("featuredEmbed");
     const playerEmpty = document.getElementById("playerEmpty");
+    const playerShell = document.querySelector(".player-shell");
     const spotifyToggle = document.getElementById("spotifyToggle");
     const appleToggle = document.getElementById("appleToggle");
     const openSpotifyLink = document.getElementById("openSpotifyLink");
@@ -2347,6 +2400,7 @@
     const livePerformanceVideo = document.getElementById("livePerformanceVideo");
 
     year.textContent = new Date().getFullYear();
+    featuredImage.onerror = () => { featuredImage.onerror = null; featuredImage.src = "media/brick by brick.PNG"; };
 
     function buildLogoWall() {
       return;
@@ -2445,11 +2499,16 @@
     }
 
     function setEmbedSource(src) {
-      if (!src || (isLowPowerDevice && !userRequestedPlayer)) {
+      const shouldDeferPlayer = isLowPowerDevice && !userRequestedPlayer;
+
+      if (!src || shouldDeferPlayer) {
         featuredEmbed.removeAttribute("src");
         playerEmpty.classList.add("is-visible");
+        playerShell?.classList.add("is-empty");
         return;
       }
+
+      playerShell?.classList.remove("is-empty");
 
       if (featuredEmbed.src === src) {
         playerEmpty.classList.remove("is-visible");
@@ -2535,7 +2594,7 @@
 
         card.innerHTML = `
           <div class="release-cover">
-            <img src="${release.image}" alt="${release.title} artwork" loading="lazy" decoding="async">
+            <img src="${release.image}" alt="${release.title} artwork" loading="lazy" decoding="async" onerror="this.onerror=null; this.src=\'media/brick by brick.PNG\';">
             <span class="release-badge">${release.type}</span>
           </div>
           <div class="release-meta">
@@ -2768,6 +2827,19 @@
       scheduleScrollEffects();
       configureLiveVideoPlayback();
     });
+  
+    /* Mobile-only: keep embedded player disabled */
+    const mobileNoPlayerQuery = window.matchMedia("(max-width: 899px)");
+    function keepMobilePlayerDisabled() {
+      if (!mobileNoPlayerQuery.matches) return;
+      const featuredEmbed = document.getElementById("featuredEmbed");
+      const playerEmpty = document.getElementById("playerEmpty");
+      if (featuredEmbed) featuredEmbed.removeAttribute("src");
+      if (playerEmpty) playerEmpty.classList.remove("is-visible");
+    }
+    keepMobilePlayerDisabled();
+    mobileNoPlayerQuery.addEventListener?.("change", keepMobilePlayerDisabled);
+
   </script>
 </body>
 </html>
