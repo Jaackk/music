@@ -1784,6 +1784,80 @@
     }
 
 
+
+
+    /* Final targeted fixes: desktop player scroll + mobile spacing/releases */
+    .player-embed {
+      pointer-events: none;
+    }
+
+    @media (max-width: 899px) {
+      html,
+      body {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: auto !important;
+        min-height: 100%;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .hero-side,
+      .hero-stat,
+      .hero-visuals,
+      .player-controls,
+      .player-shell,
+      .player-empty {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .featured-card {
+        display: block !important;
+        min-height: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      .featured-info,
+      .featured-media-stack {
+        transform: none !important;
+        min-height: 0 !important;
+      }
+
+      .featured-info {
+        gap: 12px !important;
+        padding-bottom: 0 !important;
+      }
+
+      .section.featured {
+        padding-bottom: 0 !important;
+      }
+
+      main > .section {
+        min-height: 0 !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .releases-grid {
+        display: grid !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      .release-card:not(.is-hidden) {
+        display: grid !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2262,7 +2336,7 @@
         title: "Señorita",
         year: "2025",
         type: "single",
-        image: "media/Señorita.png",
+        image: "media/Señorita.png",
         description: "Still off-player for now, but part of the same run of late-night singles.",
         platforms: {
           apple: {
@@ -2499,12 +2573,17 @@
     }
 
     function setEmbedSource(src) {
-      const shouldDeferPlayer = isLowPowerDevice && !userRequestedPlayer;
+      const shouldDeferPlayer = window.matchMedia("(max-width: 899px)").matches || (isLowPowerDevice && !userRequestedPlayer);
 
       if (!src || shouldDeferPlayer) {
         featuredEmbed.removeAttribute("src");
-        playerEmpty.classList.add("is-visible");
-        playerShell?.classList.add("is-empty");
+        if (window.matchMedia("(max-width: 899px)").matches) {
+          playerEmpty.classList.remove("is-visible");
+          playerShell?.classList.remove("is-empty");
+        } else {
+          playerEmpty.classList.add("is-visible");
+          playerShell?.classList.add("is-empty");
+        }
         return;
       }
 
@@ -2839,6 +2918,21 @@
     }
     keepMobilePlayerDisabled();
     mobileNoPlayerQuery.addEventListener?.("change", keepMobilePlayerDisabled);
+
+  
+    /* Final mobile fallback: force releases visible and prevent iframe source on mobile */
+    const finalMobileQuery = window.matchMedia("(max-width: 899px)");
+    function applyFinalMobileFallbacks() {
+      if (!finalMobileQuery.matches) return;
+      document.documentElement.style.overflowY = "auto";
+      document.body.style.overflowY = "auto";
+      document.querySelectorAll(".reveal").forEach((element) => element.classList.add("visible"));
+      if (featuredEmbed) featuredEmbed.removeAttribute("src");
+      if (playerEmpty) playerEmpty.classList.remove("is-visible");
+      if (playerShell) playerShell.classList.remove("is-empty");
+    }
+    applyFinalMobileFallbacks();
+    finalMobileQuery.addEventListener?.("change", applyFinalMobileFallbacks);
 
   </script>
 </body>
