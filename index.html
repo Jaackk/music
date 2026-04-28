@@ -1858,6 +1858,39 @@
       }
     }
 
+
+    /* Mobile-only horizontal releases carousel */
+    @media (max-width: 899px) {
+      .releases-grid {
+        display: flex !important;
+        grid-template-columns: none !important;
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 10px 18px;
+        margin: 0 -10px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 10px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+
+      .releases-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .release-card {
+        flex: 0 0 min(78vw, 320px);
+        width: min(78vw, 320px);
+        min-width: min(78vw, 320px);
+        scroll-snap-align: start;
+      }
+
+      .release-card.is-hidden {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2333,10 +2366,10 @@
       },
       {
         slug: "senorita",
-        title: "Señorita",
+        title: "SeÃ±orita",
         year: "2025",
         type: "single",
-        image: "media/Señorita.png",
+        image: "media/SenÌorita.png",
         description: "Still off-player for now, but part of the same run of late-night singles.",
         platforms: {
           apple: {
