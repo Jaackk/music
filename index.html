@@ -105,51 +105,22 @@
       pointer-events: none;
       z-index: 0;
       overflow: hidden;
-      --gutter-width: calc((100vw - min(1320px, calc(100vw - 32px))) / 2);
-    }
-
-    .logo-wall::before,
-    .logo-wall::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: max(0px, calc(var(--gutter-width) - 8px));
-      opacity: 0.14;
-      background-repeat: repeat-y, repeat-y, repeat-y, repeat-y, repeat-y;
-      background-size: 86px auto, 58px auto, 74px auto, 62px auto, 96px auto;
     }
 
     .logo-wall::before {
-      left: 0;
+      content: "";
+      position: absolute;
+      inset: -90px;
+      opacity: 0.105;
       background-image:
         url("raskylogo.png"),
-        url("raskylogo.png"),
-        url("raskylogo.png"),
-        url("raskylogo.png"),
         url("raskylogo.png");
+      background-repeat: repeat;
+      background-size: 92px auto, 58px auto;
       background-position:
-        10px 12px,
-        68px 42px,
-        126px 6px,
-        186px 34px,
-        244px 18px;
-    }
-
-    .logo-wall::after {
-      right: 0;
-      background-image:
-        url("raskylogo.png"),
-        url("raskylogo.png"),
-        url("raskylogo.png"),
-        url("raskylogo.png"),
-        url("raskylogo.png");
-      background-position:
-        14px 28px,
-        74px 4px,
-        132px 38px,
-        192px 12px,
-        248px 48px;
+        0 0,
+        46px 38px;
+      transform: rotate(-2deg);
     }
 
     .logo-wall img {
@@ -2271,6 +2242,27 @@
           },
           youtubeMusic: {
             link: "https://music.youtube.com/channel/UCfnZ-GGd4rFOV48C6R7AZ6w"
+          }
+        }
+      },
+      {
+        slug: "sunburst",
+        title: "Sunburst",
+        year: "2026",
+        type: "single",
+        image: "media/sunburst.jpg",
+        description: "Sunburst catches that bright, sudden lift when the room opens up and everything feels warmer for a minute.",
+        platforms: {
+          spotify: {
+            link: "https://open.spotify.com/album/1NXYx7mNXmgkKtPz0bN3df",
+            embed: "https://open.spotify.com/embed/album/1NXYx7mNXmgkKtPz0bN3df?utm_source=generator"
+          },
+          apple: {
+            link: "https://music.apple.com/us/album/sunburst-single/1882487024",
+            embed: "https://embed.music.apple.com/us/album/sunburst-single/1882487024?app=music"
+          },
+          youtubeMusic: {
+            link: "https://music.youtube.com/playlist?list=OLAK5uy_ngql5z-XzcIwuZae2AAyofG_2sBRQw3AQ"
           }
         }
       },
